@@ -1,7 +1,13 @@
 <template>
   <div>
-    <post-form @create="createPost" />
-    <post-list :posts="posts" />
+    <h1>Страница с постами</h1>
+    <my-button @click="showDialog" style="margin: 15px 0"
+      >Создать пользователя</my-button
+    >
+    <my-dialog v-model:show="dialogVisible">
+      <post-form @create="createPost" />
+    </my-dialog>
+    <post-list :posts="posts" @remove="removePost" />
   </div>
 </template>
 
@@ -27,10 +33,18 @@ export default {
         body: "222222",
       },
     ],
+    dialogVisible: false,
   }),
   methods: {
     createPost(post) {
       this.posts.push(post);
+      this.dialogVisible = false;
+    },
+    removePost(post) {
+      this.posts = this.posts.filter((p) => p.id !== post.id);
+    },
+    showDialog() {
+      this.dialogVisible = true;
     },
   },
 };
