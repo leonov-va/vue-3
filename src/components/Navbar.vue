@@ -6,6 +6,11 @@
       <my-button style="margin-left: 20px" @click="$router.push('/about')"
         >О Сайте</my-button
       >
+      <my-button
+        style="margin-left: 20px"
+        @click="$router.push('/posts-with-store')"
+        >Посты (с использованием vuex)</my-button
+      >
     </div>
   </div>
 </template>
