@@ -39,6 +39,14 @@ export default {
       };
     },
   },
+  // watch: {
+  //   post: {
+  //     handler(newValue) {
+  //       console.log("newValue: ", newValue);
+  //     },
+  //     deep: true,
+  //   },
+  // },
 };
 </script>
 

@@ -1,13 +1,14 @@
 <template>
-  <div>
+  <div class="app">
     <h1>Страница с постами</h1>
-    <my-button @click="showDialog" style="margin: 15px 0"
-      >Создать пользователя</my-button
-    >
+    <div class="app__btns">
+      <my-button @click="showDialog">Создать пользователя</my-button>
+      <my-select v-model="selectedSort" :options="sortOptions" />
+    </div>
     <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost" />
     </my-dialog>
-    <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
+    <post-list :posts="sortedPosts" @remove="removePost" v-if="!isPostsLoading" />
     <div v-else>Идет загрузка...</div>
   </div>
 </template>
@@ -26,6 +27,11 @@ export default {
     posts: [],
     dialogVisible: false,
     isPostsLoading: false,
+    selectedSort: "",
+    sortOptions: [
+      { value: "title", name: "По названию" },
+      { value: "body", name: "По содержимому" },
+    ],
   }),
   methods: {
     createPost(post) {
@@ -55,6 +61,20 @@ export default {
   mounted() {
     this.fetchPosts();
   },
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1, post2) =>
+        post1[this.selectedSort]?.localeCompare(post2[this.selectedSort])
+      );
+    },
+  },
+  // watch: {
+  //   selectedSort(newValue) {
+  //     this.posts.sort((post1, post2) =>
+  //       post1[newValue]?.localeCompare(post2[newValue])
+  //     );
+  //   },
+  // },
 };
 </script>
 
@@ -64,7 +84,13 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-#app {
+.app {
   padding: 28px;
+}
+.app__btns {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px 0;
 }
 </style>
