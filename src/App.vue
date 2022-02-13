@@ -15,18 +15,21 @@
       v-if="!isPostsLoading"
     />
     <div v-else>Идет загрузка...</div>
+    <post-pagination v-model:page="page" :pages="totalPages" />
   </div>
 </template>
 
 <script>
 import PostForm from "@/components/PostForm";
 import PostList from "@/components/PostList";
+import PostPagination from "@/components/PostPagination";
 import axios from "axios";
 
 export default {
   components: {
     PostForm,
     PostList,
+    PostPagination,
   },
   data: () => ({
     posts: [],
@@ -38,6 +41,9 @@ export default {
       { value: "body", name: "По содержимому" },
     ],
     searchQuery: "",
+    page: 1,
+    limit: 10,
+    totalPages: 0,
   }),
   methods: {
     createPost(post) {
@@ -54,7 +60,16 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          `https://jsonplaceholder.typicode.com/posts?_limit=10`
+          `https://jsonplaceholder.typicode.com/posts`,
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
+        );
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
         );
         this.posts = response.data;
       } catch (error) {
@@ -79,13 +94,16 @@ export default {
       );
     },
   },
-  // watch: {
-  //   selectedSort(newValue) {
-  //     this.posts.sort((post1, post2) =>
-  //       post1[newValue]?.localeCompare(post2[newValue])
-  //     );
-  //   },
-  // },
+  watch: {
+    page() {
+      this.fetchPosts();
+    },
+    // selectedSort(newValue) {
+    //   this.posts.sort((post1, post2) =>
+    //     post1[newValue]?.localeCompare(post2[newValue])
+    //   );
+    // },
+  },
 };
 </script>
 
