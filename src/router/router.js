@@ -3,6 +3,7 @@ import Main from "@/pages/Main";
 import Post from "@/pages/Post";
 import Posts from "@/pages/Posts";
 import PostsWithStore from "@/pages/PostsWithStore";
+import PostsCompositionAPI from "@/pages/PostsCompositionAPI";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -17,6 +18,10 @@ const routes = [
   {
     path: "/posts-with-store",
     component: PostsWithStore,
+  },
+  {
+    path: "/posts-composition-api",
+    component: PostsCompositionAPI,
   },
   {
     path: "/about",

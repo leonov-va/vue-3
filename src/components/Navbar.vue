@@ -9,7 +9,12 @@
       <my-button
         style="margin-left: 20px"
         @click="$router.push('/posts-with-store')"
-        >Посты (с использованием vuex)</my-button
+        >Посты (using vuex)</my-button
+      >
+      <my-button
+        style="margin-left: 20px"
+        @click="$router.push('/posts-composition-api')"
+        >Посты (using composition api)</my-button
       >
     </div>
   </div>
